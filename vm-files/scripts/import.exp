@@ -1,0 +1,5 @@
+spawn ipsec import certificate.p12
+expect "Enter password for PKCS12 file: "
+send "\r";
+expect eof
+exit

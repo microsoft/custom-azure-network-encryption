@@ -1,0 +1,1 @@
+docker run -it --rm -p 5000:5000 --name generator -e ClientId=$AZURE_KEY_VAULT_CLIENT_ID -e ClientSecret=$AZURE_KEY_VAULT_CLIENT_SECRET certificatesgenerator
