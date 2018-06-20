@@ -153,8 +153,8 @@ Generated\ Files/
 TestResult.xml
 
 # Terraform files
-deployment/terraform/.terraform
-deployment/terraform/*tfstate*
+*tfstate*
+.terraform/
 
 # Local tar gz
 vm-files/vm-files.tar.gz
