@@ -8,15 +8,15 @@ First, let's create deployment SP. You can run following commands to do this.
 ``` console
 az login
 az account set --subscription="SUBSCRIPTION_ID"
-az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/SUBSCRIPTION_ID"
+az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/SUBSCRIPTION_ID" --name DeploymentSP
 ```
 
 This command will ouput five values:
 ``` console
 {
   "appId": "00000000-0000-0000-0000-000000000000",
-  "displayName": "azure-cli-2018-06-13-15-44-12",
-  "name": "http://azure-cli-2018-06-13-15-44-12",
+  "displayName": "DeploymentSP",
+  "name": "http://DeploymentSP",
   "password": "0000-0000-0000-0000-000000000000",
   "tenant": "00000000-0000-0000-0000-000000000000"
 }
@@ -34,7 +34,7 @@ export AZURE_MGMT_CLIENT_SECRET=<password>
 Now we can create a Key Vault user, this user doesn't require any assigned role because access will be configured later. Also, we will obtain the SP object ID. Object ID will be used to grant access to Key Vault. We can use the SP name, but if do this deployment SP needs an access to Active Directory.
 
 ``` console
-az ad sp create-for-rbac --skip-assignment
+az ad sp create-for-rbac --skip-assignment --name KeyVaultSP
 az ad sp show --id <appId>
 ```
 
@@ -42,11 +42,11 @@ The output from the second command will look like this:
 ``` console
 {
   "appId": "00000000-0000-0000-0000-000000000000",
-  "displayName": "azure-cli-2018-06-13-23-28-40",
+  "displayName": "KeyVaultSP",
   "objectId": "00000000-0000-0000-0000-000000000000",
   "objectType": "ServicePrincipal",
   "servicePrincipalNames": [
-    "http://azure-cli-2018-06-13-23-28-40",
+    "http://KeyVaultSP",
     "00000000-0000-0000-0000-000000000000"
   ]
 }

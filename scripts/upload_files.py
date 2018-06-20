@@ -19,7 +19,7 @@ container_name = "vm-scripts-files"
 
 vm_files = ["config/ipsec.conf",
             "scripts/download_certificate.py",
-            "scripts/KeyVaultWrapper.py",
+            "scripts/keyvault_wrapper.py",
             "scripts/import.exp",
             "scripts/configure.sh"]
 

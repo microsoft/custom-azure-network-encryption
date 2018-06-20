@@ -1,4 +1,4 @@
-from KeyVaultWrapper import KeyVaultWrapper
+from keyvault_wrapper import KeyVaultWrapper
 import os
 import time
 
