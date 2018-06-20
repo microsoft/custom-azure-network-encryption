@@ -181,8 +181,8 @@ export TF_VAR_command="bash bootstrap.sh $AZURE_KEY_VAULT_URL"
 
 At this moment, terraform is ready for the deployment. Just run these commands and wait.
 
-``` console 
-cd <root_folder>/deployment/terraform
+``` console
+cd <root_folder>/deployment/single_vnet
 terraform init
 terraform apply
 ```

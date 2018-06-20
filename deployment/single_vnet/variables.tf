@@ -96,3 +96,9 @@ variable "admin_password" {}
 variable "command" {}
 
 variable "files" {}
+
+variable "vnet_address_space" {
+  type = "list"
+}
+
+variable "vnet_subnet_address_prefix" {}

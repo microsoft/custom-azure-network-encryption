@@ -6,6 +6,6 @@ expect scripts/import.exp
 
 sed -e "s/\${certificate}/${HOSTNAME}/" config/ipsec.conf > /etc/ipsec.d/private_ipsec.conf
 
-echo "10.0.0.0/8" > /etc/ipsec.d/policies/private
+echo -e $1 > /etc/ipsec.d/policies/private
 
 ipsec restart
