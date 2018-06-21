@@ -1,0 +1,7 @@
+pply complete! Resources: 4 added, 2 changed, 0 destroyed.
+
+Outputs:
+
+VMSS_SPN1 = a95f88dd-ec96-437a-a51a-ee8f7b59ee42
+VMSS_SPN2 = f619088c-bf57-4896-9eaa-ee0e37d868cf
+++ cat log.txt

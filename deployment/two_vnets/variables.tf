@@ -89,6 +89,14 @@ variable "vmss_prefix_1" {
   description = ""
 }
 
+variable "vnet_address_space_1" {
+  type = "list"
+}
+
+variable "vnet_subnet_address_prefix_1" {}
+
+variable "vnet_gateway_subnet_address_prefix_1" {}
+
 ###############################################################################
 # Scale Set #2 Variables
 ###############################################################################
@@ -105,3 +113,11 @@ variable "location_2" {
 variable "vmss_prefix_2" {
   description = ""
 }
+
+variable "vnet_address_space_2" {
+  type = "list"
+}
+
+variable "vnet_subnet_address_prefix_2" {}
+
+variable "vnet_gateway_subnet_address_prefix_2" {}

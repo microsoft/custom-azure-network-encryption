@@ -14,9 +14,9 @@ module "vmss1" {
   storage_account_tier     = "${var.storage_account_tier}"
   storage_replication_type = "${var.storage_replication_type}"
 
-  vnet_address_space                 = ["10.0.0.0/16"]
-  vnet_subnet_address_prefix         = "10.0.0.0/24"
-  vnet_gateway_subnet_address_prefix = "10.0.1.0/24"
+  vnet_address_space                 = "${var.vnet_address_space_1}"
+  vnet_subnet_address_prefix         = "${var.vnet_subnet_address_prefix_1}"
+  vnet_gateway_subnet_address_prefix = "${var.vnet_gateway_subnet_address_prefix_1}"
 
   vm_sku          = "${var.vm_sku}"
   image_sku       = "${var.image_sku}"
@@ -41,9 +41,9 @@ module "vmss2" {
   storage_account_tier     = "${var.storage_account_tier}"
   storage_replication_type = "${var.storage_replication_type}"
 
-  vnet_address_space                 = ["172.0.0.0/16"]
-  vnet_subnet_address_prefix         = "172.0.0.0/24"
-  vnet_gateway_subnet_address_prefix = "172.0.1.0/24"
+  vnet_address_space                 = "${var.vnet_address_space_2}"
+  vnet_subnet_address_prefix         = "${var.vnet_subnet_address_prefix_2}"
+  vnet_gateway_subnet_address_prefix = "${var.vnet_gateway_subnet_address_prefix_2}"
 
   vm_sku          = "${var.vm_sku}"
   image_sku       = "${var.image_sku}"
