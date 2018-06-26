@@ -1,3 +1,9 @@
+# Azure Cluster with enabled IPSec Provisioning
+
+This readme describes the provisioning process for Azure cluster with enabled IPSec with single or multiple VNETs.
+
+You can find corresponding `deploy.sh` scripts in folders `single_vnet` and `two_vnets`.
+
 ## Create Service Principals
 
 You need to create required Service Principals. You will need at least 2 different SPs: 
@@ -146,7 +152,7 @@ If you use scripts from this sample, you should update `scripts/hostnames.json` 
 }
 ```
 
-Now you can run `scripts/generate_certificates.py`. This script will perform 3 actions:
+Now you can run `scripts/generate_certificates.py` and pass your `hostnames.json` file as a parameter. This script will perform 3 actions:
 
 - Generate self-signed certificate, used as a root CA and uploads its public part to Azure
 - Generate signed intermediate CA certificate and uploads its public part to Azure
@@ -155,9 +161,9 @@ Now you can run `scripts/generate_certificates.py`. This script will perform 3 a
 For more details you can reference comments in this script.
 When finished, you can stop docker container because we no longer need certificates generation service.
 
-## Deploy The Cluster
+## Deploy The Cluster (Single VNET)
 
-This section describes each action from `deploy.sh` script. If you execute it, it will deploy VM Scale Set with required infrastructure, provision MSI and Custom Script extensions. It will grant Key Vault access to the provisioned identity. When its done, VMs will download unique certificates and configure opportunistic IPSec inside the VNET.
+This section describes each action from `single_vnet/deploy.sh` script. If you execute it, it will deploy VM Scale Set with required infrastructure, provision MSI and Custom Script extensions. It will grant Key Vault access to the provisioned identity. When its done, VMs will download unique certificates and configure opportunistic IPSec inside the VNET.
 
 Before the deployment, we need to upload content of `vm-files` folder to Azure Storage. There is `scripts/upload_files.py` script, it will pack `vm-files/config` and `vm-files/scripts` folders to the `tar.gz` file. After this, `vm-files.tar.gz` and `bootstrap.sh` are uploaded to Azure Storage.
 This script generates SAS tokens to access these files. The output contains shell command to configure `TF_VAR_files` environment variable for terraform deployment. You can use `eval` to execute this command.
@@ -169,20 +175,25 @@ export TF_VAR_files='["<boostrap.sh>", "<vm-files.tar.gz>"]'
 $ eval $(python upload_files.py)
 ```
 
-Next, we need to configure other terraform variables:
+Next, we need to set VNET address space and configure other terraform variables:
 
 ``` console
+subnet_address_space='["10.0.0.0/16"]'
+subnet_address_prefix=10.0.0.0/24
+
 export TF_VAR_client_id=$AZURE_MGMT_CLIENT_ID
 export TF_VAR_client_secret=$AZURE_MGMT_CLIENT_SECRET
 export TF_VAR_tenant_id=$AZURE_TENANT_ID
 export TF_VAR_subscription_id=$AZURE_SUBSCRIPTION_ID
+export TF_VAR_vnet_address_space=$subnet_address_space
+export TF_VAR_vnet_subnet_address_prefix=$subnet_address_prefix
 export TF_VAR_command="bash bootstrap.sh $AZURE_KEY_VAULT_URL"
 ```
 
 At this moment, terraform is ready for the deployment. Just run these commands and wait.
 
-``` console 
-cd <root_folder>/deployment/terraform
+``` console
+cd <root_folder>/deployment/single_vnet
 terraform init
 terraform apply
 ```
@@ -196,6 +207,11 @@ az keyvault set-policy --name $AZURE_KEY_VAULT_NAME --certificate-permissions ge
 ```
 
 When finished, VMs will complete IPSec configuration. You can find more details [here](../vm-files/README.md).
+
+## Deploy the cluster (Multiple VNETs)
+
+Deployment of cluster that shares multiple VNETs is almost identical to the single VNET deployment.
+The only difference is the fact that you should select address range for the gateway subnet. 
 
 ## Verify IPSec Status
 

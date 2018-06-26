@@ -2,10 +2,16 @@ import requests
 import json
 import copy
 import os
+import sys
 
 import logging
 
 logging.basicConfig(level=logging.INFO)
+
+if len(sys.argv) != 2:
+    logging.error("Please pass hostnames filename.")
+
+hostnames_json = open(sys.argv[1], "rt").read()
 
 # Expected POST body
 body = {
@@ -78,7 +84,7 @@ logging.info("Intermediate CA generated.")
 
 
 # Load hostnames
-hosts = json.loads(open("hostnames.json", "rt").read())["hosts"]
+hosts = json.loads(hostnames_json)["hosts"]
 for host in hosts:
     # Generate certificates for each host
     logging.info("Generating host certificate: {}".format(host))

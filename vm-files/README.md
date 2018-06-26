@@ -23,7 +23,7 @@ Script runs until it can successfully download required files.
 
 ## configure.sh
 
-This script configures libreswan opportunistic IPSec.
+This script configures libreswan opportunistic IPSec. It accepts network address spaces as a parameters, you can pass as many as you need. They will be placed to the private policy address ranges configuration file.
 
 First, we need to upload our certificate to the certificates database. You can import p12 file, containing entire certificates chain.
 The only challenge here is in `ipsec import <p12_file>` command. It requires you to provide a password, so we use `expect` to handle it without prompting user.

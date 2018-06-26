@@ -15,4 +15,4 @@ export ROOT_CA_NAME=root-ca
 export INTERMEDIATE_CA_NAME=intermediate-ca
 export CERTIFICATE_NAME=certificate
 
-python scripts/download_certificate.py && bash scripts/configure.sh &
+python scripts/download_certificate.py && bash scripts/configure.sh "${@:2}" &
