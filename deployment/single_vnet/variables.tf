@@ -102,3 +102,7 @@ variable "vnet_address_space" {
 }
 
 variable "vnet_subnet_address_prefix" {}
+
+variable "keyvault_name" {}
+
+variable "keyvault_resource_group_name" {}
