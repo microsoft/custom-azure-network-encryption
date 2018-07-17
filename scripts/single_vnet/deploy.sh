@@ -33,7 +33,7 @@ export TF_VAR_vnet_address_space=$subnet_address_space
 export TF_VAR_vnet_subnet_address_prefix=$subnet_address_prefix
 export TF_VAR_command="bash bootstrap.sh $AZURE_KEY_VAULT_URL $subnet_address_prefix"
 export TF_VAR_keyvault_name=$AZURE_KEY_VAULT_NAME
-export TF_VAR_keyvault_resource_group_name=$AZURE_KEY_VAULT_NAME
+export TF_VAR_keyvault_resource_group_name=$AZURE_KEY_VAULT_RESOURCE_GROUP
 
 # Run terraform apply and save output to the file to extract VMSS MSI SP
 terraform apply
