@@ -125,6 +125,7 @@ resource "azurerm_virtual_machine_scale_set" "scaleset" {
     primary = true
 
     ip_configuration {
+      primary                                = true
       name                                   = "${var.vmss_prefix}-ipconfig"
       subnet_id                              = "${azurerm_subnet.subnet.id}"
       load_balancer_backend_address_pool_ids = ["${azurerm_lb_backend_address_pool.backlb.id}"]
