@@ -14,6 +14,7 @@ namespace CertificateGeneration.Wrappers
         public int BasicConstraintPathLengthConstraint { get; set; } = 0;
         public bool BasicConstraintCritical { get; set; } = false;
         public int KeyStrength { get; set; } = 2048;
+        public int SerialNumber { get; set; }
     }
 
     public interface ICertificatesWrapper
@@ -49,8 +50,7 @@ namespace CertificateGeneration.Wrappers
             }
             else
             {
-                var serialNumber = new byte[4];
-                random.NextBytes(serialNumber);
+                byte[] serialNumber = BitConverter.GetBytes(properties.SerialNumber);
 
                 var cert = req.Create(ca, notBefore, notAfter, serialNumber);
                 return cert.CopyWithPrivateKey(key);

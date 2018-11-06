@@ -39,6 +39,7 @@ echo "Vault url:" $keyvault_url
 
 # Export environment variables
 export AZURE_STORAGE_KEY=$storage_key
+export AZURE_KEY_VAULT_RESOURCE_GROUP=$rg_name
 export AZURE_KEY_VAULT_NAME=$kv_name
 export AZURE_KEY_VAULT_URL=$keyvault_url
 export AZURE_STORAGE_NAME=$sa_name
