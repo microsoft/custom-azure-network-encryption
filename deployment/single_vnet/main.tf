@@ -84,13 +84,37 @@ resource "azurerm_storage_container" "vhds" {
   container_access_type = "blob"
 }
 
+resource "azurerm_user_assigned_identity" "vmssidentity" {
+  resource_group_name = "${azurerm_resource_group.rg.name}"
+  location            = "${azurerm_resource_group.rg.location}"
+  name                = "vmssidentity"
+}
+
+resource "azurerm_key_vault_access_policy" "readpolicy" {
+  vault_name          = "${var.keyvault_name}"
+  resource_group_name = "${var.keyvault_resource_group_name}"
+
+  key_permissions = []
+
+  secret_permissions = [
+    "get",
+  ]
+
+  certificate_permissions = [
+    "get",
+  ]
+
+  tenant_id = "${var.tenant_id}"
+  object_id = "${azurerm_user_assigned_identity.vmssidentity.principal_id}"
+}
+
 resource "azurerm_virtual_machine_scale_set" "scaleset" {
   name                = "vmscaleset"
   location            = "${azurerm_resource_group.rg.location}"
   resource_group_name = "${azurerm_resource_group.rg.name}"
   upgrade_policy_mode = "Manual"
   overprovision       = true
-  depends_on          = ["azurerm_lb.lb", "azurerm_virtual_network.vnet"]
+  depends_on          = ["azurerm_lb.lb", "azurerm_virtual_network.vnet", "azurerm_key_vault_access_policy.readpolicy"]
 
   sku {
     name     = "${var.vm_sku}"
@@ -99,7 +123,8 @@ resource "azurerm_virtual_machine_scale_set" "scaleset" {
   }
 
   identity {
-    type = "systemAssigned"
+    type         = "UserAssigned"
+    identity_ids = ["${azurerm_user_assigned_identity.vmssidentity.id}"]
   }
 
   extension {
@@ -125,6 +150,7 @@ resource "azurerm_virtual_machine_scale_set" "scaleset" {
     primary = true
 
     ip_configuration {
+      primary                                = true
       name                                   = "${var.vmss_prefix}-ipconfig"
       subnet_id                              = "${azurerm_subnet.subnet.id}"
       load_balancer_backend_address_pool_ids = ["${azurerm_lb_backend_address_pool.backlb.id}"]
