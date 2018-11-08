@@ -17,7 +17,7 @@ az account set --subscription="SUBSCRIPTION_ID"
 az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/SUBSCRIPTION_ID" --name DeploymentSP
 ```
 
-This command will ouput five values:
+This command will output five values:
 ``` console
 {
   "appId": "00000000-0000-0000-0000-000000000000",
@@ -198,7 +198,7 @@ terraform init
 terraform apply
 ```
 
-It will take a few minutes to provision VM Scale Set cluster. If succesfully finished, VM Scale Set has scripts that are trying to access Azure Key Vault and configure IPSec. Now you need to grant an access for the provisioned MSI identity to your Azure Key Vault. You can find `VMSS SPN` in terraform output.
+It will take a few minutes to provision VM Scale Set cluster. If successfully finished, VM Scale Set has scripts that are trying to access Azure Key Vault and configure IPSec. Now you need to grant an access for the provisioned MSI identity to your Azure Key Vault. You can find `VMSS SPN` in terraform output.
 
 You should grant get access for certificates and secrets.
 
@@ -218,7 +218,7 @@ The only difference is the fact that you should select address range for the gat
 Finally you can verify IPSec status inside your VNET. To inspect it, you can SSH into one of your VMs.
 You can find IP and port in Azure Load Balancer details (by default load balancer uses ports starting with 50000 to route ssh connection to the VM Scale Set hosts).
 
-First, try to ping other VMs inside this VNET. After this you can verify that tunnels were succesfully created.
+First, try to ping other VMs inside this VNET. After this you can verify that tunnels were successfully created.
 
 ``` console
 $ ping 10.0.0.4
